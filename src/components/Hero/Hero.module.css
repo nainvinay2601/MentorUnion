@@ -1,0 +1,275 @@
+.hero {
+  position: relative;
+height: 100vh ;
+  display: flex;
+  align-items: center;
+  background: #0a0a0a;
+  color: white;
+  overflow: hidden;
+}
+
+/* Background image */
+.bgWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0.65;
+}
+
+/* Orbit container - CENTER RIGHT, around mentor's head */
+.orbitContainer {
+  position: absolute;
+  bottom: -117%;
+  left: -20%;
+  /* transform: translate(0, -50%); */
+  width: 100vw;
+  height: 100vw;
+  /* max-width: 700px; */
+  /* max-height: 700px; */
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Orbit rings */
+.orbitRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+}
+
+/* Inner ring - counter-clockwise, 77% size */
+.ring1 {
+  width: 77%;
+  height: 77%;
+  margin-left: -38.5%;
+  margin-top: -38.5%;
+  animation: rotateCounterClockwise 50s linear infinite;
+}
+
+/* Outer ring - clockwise, 100% size */
+.ring2 {
+  width: 100%;
+  height: 100%;
+  margin-left: -50%;
+  margin-top: -50%;
+  animation: rotateClockwise 60s linear infinite;
+}
+
+/* Orbital path line */
+.orbitPath {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid #737373;
+}
+
+/* Avatar holder */
+.avatarHolder {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+}
+
+/* Avatar wrapper - keeps upright by counter-rotating */
+.avatarWrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.ring1 .avatarWrapper {
+  animation: keepUpright1 50s linear infinite;
+}
+
+.ring2 .avatarWrapper {
+  animation: keepUpright2 60s linear infinite;
+}
+
+/* Avatar styling */
+.avatarBg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd95a 0%, #ffeb99 100%);
+  padding: 12px;
+  box-shadow: 0 8px 30px rgba(255, 217, 90, 0.5),
+              0 0 40px rgba(255, 217, 90, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Position avatars ON the orbital path using absolute positioning */
+/* Ring1 radius = 50% of ring1's size */
+
+/* Avatar 1 - top right (30deg on inner ring) */
+.ring1 .avatar1 {
+  top: calc(50% - 50% * 0.866 - 40px);  /* 50% * sin(30deg) */
+  left: calc(50% + 50% * 0.5 - 40px);    /* 50% * cos(30deg) */
+}
+
+/* Avatar 2 - bottom left (210deg on inner ring) */
+.ring1 .avatar2 {
+  top: calc(50% + 50% * 0.5 - 40px);     /* 50% * sin(210deg) */
+  left: calc(50% - 50% * 0.866 - 40px);  /* 50% * cos(210deg) */
+}
+
+/* Avatar 3 - top (80deg on outer ring) */
+.ring2 .avatar3 {
+  top: calc(50% - 50% * 0.985 - 40px);   /* 50% * sin(80deg) */
+  left: calc(50% + 50% * 0.174 - 40px);  /* 50% * cos(80deg) */
+}
+
+/* Avatar 4 - bottom left (260deg on outer ring) */
+.ring2 .avatar4 {
+  top: calc(50% + 50% * 0.342 - 40px);   /* 50% * sin(260deg) */
+  left: calc(50% - 50% * 0.940 - 40px);  /* 50% * cos(260deg) */
+}
+
+/* Content - bottom left */
+.content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  z-index: 4;
+  /* max-width: 700px; */
+padding: 0px 0px 80px 100px;
+  align-self: flex-end;
+}
+
+.headline {
+  /* font-size: clamp(3.5rem, 5.5vw, 6rem);
+   */
+   font-size: 52px;
+  font-weight: 300;
+  line-height: 120%;
+  margin-bottom: 16px;
+  /* letter-spacing: -0.02em; */
+}
+
+.accent {
+background: linear-gradient(91.07deg, #39B5D7 19.66%, #F7D544 59.9%, #E38330 99.78%);
+
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: italic;
+  font-size:60px;
+  font-family: var(--font-fraunces);
+  font-weight: 500;
+}
+
+.subtext {
+  /* font-size: clamp(1.05rem, 1.25vw, 1.2rem); */
+  font-size: 16px;
+  color:#E5E5E5;
+  max-width: 540px;
+  margin-bottom: 16px;
+  opacity: 0.85;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.subtext strong {
+  font-weight: 600;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 14px 24px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+  font-family: var(--primary-font);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255, 255, 255, 0.2);
+  background: #f5f5f5;
+}
+
+
+
+
+.ctaIcon{
+  width: auto;
+  height: auto;
+
+  filter: brightness(0);
+
+}
+/* Animations */
+@keyframes rotateCounterClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes rotateClockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes keepUpright1 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes keepUpright2 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .orbitContainer {
+    width: 50vw;
+    height: 50vw;
+    right: 15%;
+  }
+
+  .content {
+    padding: 0 60px 80px 80px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .orbitContainer {
+    display: none;
+  }
+
+  .content {
+    padding: 0 24px 60px 24px;
+  }
+
+  .headline {
+    font-size: 2.8rem;
+  }
+
+  .subtext {
+    font-size: 1.1rem;
+  }
+}
