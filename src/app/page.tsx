@@ -1,6 +1,7 @@
 // import styles from "./page.module.css";
 import Header from "@/components/Header/Header";
 import Hero from "@/components/Hero/Hero";
+import MentorGrid from "@/components/MentorGrid/MentorGrid";
 import ProblemStatement from "@/components/ProblemStatement/ProblemStatement";
 
 export default function Home() {
@@ -9,7 +10,7 @@ export default function Home() {
       <Header />
       <Hero />
       <ProblemStatement />
-
+<MentorGrid/>
     </div>
   );
 }
