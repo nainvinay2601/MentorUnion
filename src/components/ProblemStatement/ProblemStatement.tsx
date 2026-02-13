@@ -21,6 +21,9 @@ export default function ProblemStatement() {
       const splitBefore = new SplitText(textBeforeRef.current, { type: 'words' });
       const splitAfter = new SplitText(textAfterRef.current, { type: 'words' });
 
+      // SET INITIAL VISIBILITY FOR LEFT SVG
+      gsap.set(`.${styles.topLeftVector}`, { opacity: 1 });
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -33,7 +36,7 @@ export default function ProblemStatement() {
         },
       });
 
-      // LEFT SVG - MORE TIME
+      // LEFT SVG - STARTS IMMEDIATELY AND VISIBLE
       const leftPath = document.querySelector(`.${styles.topLeftVector} .problem-path`);
       if (leftPath) {
         const length = leftPath.getTotalLength();
@@ -45,7 +48,7 @@ export default function ProblemStatement() {
         tl.to(leftPath, {
           strokeDashoffset: 0,
           ease: 'none',
-          duration: 2.5, // MORE TIME
+          duration: 2.5,
         }, 0);
       }
 
@@ -63,7 +66,7 @@ export default function ProblemStatement() {
       tl.to(`.${styles.topLeftVector}`, {
         opacity: 0,
         duration: 0.3
-      }, 2.5); // ADJUSTED
+      }, 2.5);
 
       // RIGHT SVG - DRAWS UNTIL THE END
       const rightPaths = document.querySelectorAll(`.${styles.topRightVector} .problem-path`);
@@ -86,7 +89,7 @@ export default function ProblemStatement() {
         backgroundColor: '#000000',
         ease: 'none',
         duration: 1.0,
-      }, 2.8); // ADJUSTED
+      }, 2.8);
 
       tl.to([textBeforeRef.current, textAfterRef.current], {
         color: '#ffffff',
