@@ -1,0 +1,82 @@
+.section {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  background-color: #ffffff;
+  z-index: 1;
+  will-change: background-color;
+}
+
+.content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+.textWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.textBefore,
+.textAfter {
+  font-family: var(--font-fraunces);
+  /* font-size: clamp(2.5rem, 6vw, 5.2rem);
+   */
+   font-size: 50px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  will-change: color, opacity;
+}
+
+.textBefore { opacity: 1; color: #000000; }
+.textAfter  { opacity: 0; color: #ffffff; }
+
+.topLeftVector,
+.topRightVector {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.92;
+  will-change: transform;
+}
+
+.topLeftVector {
+  width: 120%;
+  height: auto;
+  top: -70vh;          
+  left: -25%;
+}
+
+.topRightVector {
+  width: 180%;
+  height: auto;
+  top: -75vh;
+  right: -50%;
+  left: auto;
+}
+
+@media (max-width: 768px) {
+  .topLeftVector { top: -60vh; left: -35%; width: 140%; }
+  .topRightVector { top: -65vh; right: -70%; width: 220%; }
+}
