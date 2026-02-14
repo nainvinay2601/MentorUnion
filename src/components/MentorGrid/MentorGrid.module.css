@@ -150,40 +150,57 @@
 
 @media (max-width: 768px) {
   .section {
+    min-height: auto;
     padding: 40px 0;
+
   }
-  
+
   .container {
-    width: calc(100% - 80px);
-    margin: 0 40px;
+    width: calc(100% - 48px);
+    margin: 0 24px;
+    padding: 20px 0px;
   }
-  
+
   .header {
     margin-bottom: 40px;
   }
-  
+
+  .title {
+    font-size: 24px;
+  }
+
+  .titleItalic {
+    font-size: 30px;
+  }
+
   .grid {
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(8, 90px);
+    grid-template-rows: repeat(8, 70px);
   }
-  
+
   .cell {
-    padding: 20px;
+    height: 70px;
+    padding: 15px;
   }
-  
+
   .cell:nth-child(4n) {
     border-right: 1px solid #e5e5e5;
   }
-  
+
   .cell:nth-child(3n) {
     border-right: none;
   }
-  
+
   .cell:nth-child(n+21) {
     border-bottom: 1px solid #e5e5e5;
   }
-  
+
   .cell:nth-child(n+22) {
     border-bottom: none;
+  }
+
+  .cubeInner img {
+    max-width: 60px;
+    max-height: 30px;
   }
 }
