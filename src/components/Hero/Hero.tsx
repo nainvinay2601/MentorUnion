@@ -1,12 +1,25 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import styles from './Hero.module.css';
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if mobile on mount
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!heroRef.current) return;
@@ -74,7 +87,7 @@ export default function Hero() {
     <section ref={heroRef} className={styles.hero}>
       <div className={styles.bgWrapper}>
         <Image
-          src="/heroSectionAssets/kunal.png"
+          src={isMobile ? "/heroSectionAssets/kunalMobile.png" : "/heroSectionAssets/kunal.png"}
           alt="Mentor background"
           fill
           priority
