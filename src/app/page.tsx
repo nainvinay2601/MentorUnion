@@ -1,4 +1,5 @@
 // import styles from "./page.module.css";
+import FAQ from "@/components/FAQ/FAQ";
 import  GoalsMentor  from "@/components/GoalsMentor/GoalsMentor";
 import Header from "@/components/Header/Header";
 import Hero from "@/components/Hero/Hero";
@@ -17,8 +18,8 @@ export default function Home() {
 <Stats/>
 <JourneySlider/>
 <GoalsMentor/>
-      <ProblemStatement />
 
+<FAQ/>
 
 
     </div>
