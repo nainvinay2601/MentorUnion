@@ -101,7 +101,7 @@ export default function MentorGrid() {
       });
     });
 
-    const cubeElements = document.querySelectorAll(`.${styles.cubeInner}`);
+    const cubeElements = document.querySelectorAll(`.${styles.cubeInner}`) as NodeListOf<HTMLElement>;
 
     // Rotate all cubes automatically every 2 seconds (90 degrees each time)
     const interval = setInterval(() => {

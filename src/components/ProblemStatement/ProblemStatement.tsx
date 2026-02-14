@@ -46,7 +46,7 @@ export default function ProblemStatement() {
       });
 
       // LEFT SVG - STARTS IMMEDIATELY AND VISIBLE
-      const leftPath = document.querySelector(`.${styles.topLeftVector} .problem-path`);
+      const leftPath = document.querySelector(`.${styles.topLeftVector} .problem-path`) as SVGPathElement;
       if (leftPath) {
         const length = leftPath.getTotalLength();
         gsap.set(leftPath, {
@@ -84,7 +84,7 @@ export default function ProblemStatement() {
       }, 2.5);
 
       // RIGHT SVG - DRAWS UNTIL THE END
-      const rightPaths = document.querySelectorAll(`.${styles.topRightVector} .problem-path`);
+      const rightPaths = document.querySelectorAll(`.${styles.topRightVector} .problem-path`) as NodeListOf<SVGPathElement>;
       rightPaths.forEach((path) => {
         const length = path.getTotalLength();
         gsap.set(path, {
@@ -158,7 +158,7 @@ export default function ProblemStatement() {
             Still Guessing Your Way Through Career Choices, Alone?
           </h2>
           <h2 ref={textAfterRef} className={styles.textAfter}>
-            Now you don't have to!
+            Now you don&apos;t have to!
           </h2>
         </div>
 
