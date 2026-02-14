@@ -2,10 +2,15 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 import styles from './MentorGrid.module.css';
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 export default function MentorGrid() {
   const sectionRef = useRef(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   // All 24 unique logos
   const allLogos = [
@@ -68,25 +73,51 @@ export default function MentorGrid() {
   ];
 
   useEffect(() => {
+    if (!titleRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // Split text animation
+      const split = new SplitText(titleRef.current, { 
+        type: 'words,chars',
+        wordsClass: 'word',
+        charsClass: 'char'
+      });
+
+      // Title animation - stagger chars
+      gsap.from(split.chars, {
+        opacity: 0,
+        y: 20,
+        rotationX: -90,
+        transformOrigin: '0% 50% -50',
+        stagger: 0.02,
+        duration: 0.8,
+        ease: 'back.out(1.7)',
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: 'top 80%',
+          end: 'top 50%',
+          toggleActions: 'play none none none'
+        }
+      });
+    });
+
     const cubeElements = document.querySelectorAll(`.${styles.cubeInner}`);
 
-    // Rotate all cubes automatically every 1 second (90 degrees each time)
+    // Rotate all cubes automatically every 2 seconds (90 degrees each time)
     const interval = setInterval(() => {
       cubeElements.forEach((cube) => {
         const currentRotation = parseInt(cube.dataset.rotation || '0');
         const newRotation = currentRotation + 90;
-        
         gsap.to(cube, {
           rotateY: newRotation,
           duration: 0.6,
-          // ease: 'power2.inOut',
         });
-        
         cube.dataset.rotation = newRotation.toString();
       });
     }, 2000);
 
     return () => {
+      ctx.revert();
       clearInterval(interval);
     };
   }, []);
@@ -95,7 +126,7 @@ export default function MentorGrid() {
     <section ref={sectionRef} className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.title}>
+          <h2 ref={titleRef} className={styles.title}>
             Gain Access to Mentors from
             <br />
             <span className={styles.titleItalic}>Global Brands</span>

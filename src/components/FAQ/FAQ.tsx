@@ -4,8 +4,9 @@ import Image from 'next/image';
 import styles from './FAQ.module.css';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 interface FAQItem {
   question: string;
@@ -115,6 +116,12 @@ const faqData: Record<string, CategoryData> = {
   }
 };
 
+const categories = [
+  { key: 'bookings', label: 'Bookings & Rescheduling' },
+  { key: 'techSupport', label: 'Tech Support & Navigation' },
+  { key: 'mentorFeedback', label: 'Mentor, Feedback & Policies' }
+];
+
 export default function FAQ() {
   const [activeCategory, setActiveCategory] = useState<string>('bookings');
   const [openIndex, setOpenIndex] = useState<number>(0);
@@ -122,8 +129,10 @@ export default function FAQ() {
   const iconRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const containerRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const accordionsRef = useRef<HTMLDivElement>(null);
+  const tabSliderRef = useRef<HTMLDivElement>(null);
 
   const toggleAccordion = (index: number) => {
     const wasOpen = openIndex === index;
@@ -173,6 +182,21 @@ export default function FAQ() {
     setOpenIndex(targetIndex);
   };
 
+  const handleCategoryChange = (categoryKey: string) => {
+    setActiveCategory(categoryKey);
+    setOpenIndex(0);
+
+    // Scroll active tab into view on mobile
+    requestAnimationFrame(() => {
+      if (tabSliderRef.current) {
+        const activeTab = tabSliderRef.current.querySelector(`[data-category="${categoryKey}"]`);
+        if (activeTab) {
+          activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }
+    });
+  };
+
   useEffect(() => {
     // Animate first accordion on mount
     if (contentRefs.current[0]) {
@@ -195,26 +219,30 @@ export default function FAQ() {
   // Scroll-triggered animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header animation
-      gsap.fromTo(
-        headerRef.current,
-        {
-          y: 60,
-          opacity: 0
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
+      // Title SplitText animation
+      if (titleRef.current) {
+        const titleSplit = new SplitText(titleRef.current, { 
+          type: 'words,chars',
+          wordsClass: 'word',
+          charsClass: 'char'
+        });
+
+        gsap.from(titleSplit.chars, {
+          opacity: 0,
+          y: 20,
+          rotationX: -90,
+          transformOrigin: '0% 50% -50',
+          stagger: 0.02,
+          duration: 0.8,
+          ease: 'back.out(1.7)',
           scrollTrigger: {
-            trigger: containerRef.current,
+            trigger: titleRef.current,
             start: 'top 80%',
             end: 'top 50%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none'
           }
-        }
-      );
+        });
+      }
 
       // Sidebar tabs animation
       gsap.fromTo(
@@ -279,41 +307,46 @@ export default function FAQ() {
 
       <div className={styles.content}>
         <div ref={headerRef} className={styles.header}>
-          <h2 className={styles.title}>
+          <h2 ref={titleRef} className={styles.title}>
             Frequently Asked <br/><span className={styles.titleItalic}>Questions</span>
           </h2>
         </div>
 
         <div className={styles.faqWrapper}>
-          {/* Left Sidebar - Category Tabs */}
+          {/* Desktop Sidebar */}
           <div ref={sidebarRef} className={styles.sidebar}>
             <div
               className={`${styles.tab} ${activeCategory === 'bookings' ? styles.tabActive : ''}`}
-              onClick={() => {
-                setActiveCategory('bookings');
-                setOpenIndex(0);
-              }}
+              onClick={() => handleCategoryChange('bookings')}
             >
               Bookings &<br />Rescheduling
             </div>
             <div
               className={`${styles.tab} ${activeCategory === 'techSupport' ? styles.tabActive : ''}`}
-              onClick={() => {
-                setActiveCategory('techSupport');
-                setOpenIndex(0);
-              }}
+              onClick={() => handleCategoryChange('techSupport')}
             >
               Tech Support<br />& Navigation
             </div>
             <div
               className={`${styles.tab} ${activeCategory === 'mentorFeedback' ? styles.tabActive : ''}`}
-              onClick={() => {
-                setActiveCategory('mentorFeedback');
-                setOpenIndex(0);
-              }}
+              onClick={() => handleCategoryChange('mentorFeedback')}
             >
               Mentor,<br />Feedback &<br />Policies
             </div>
+          </div>
+
+          {/* Mobile Tab Slider */}
+          <div ref={tabSliderRef} className={styles.tabSlider}>
+            {categories.map((category) => (
+              <button
+                key={category.key}
+                data-category={category.key}
+                className={`${styles.tabSliderItem} ${activeCategory === category.key ? styles.tabSliderItemActive : ''}`}
+                onClick={() => handleCategoryChange(category.key)}
+              >
+                {category.label}
+              </button>
+            ))}
           </div>
 
           {/* Right Content - Accordions */}

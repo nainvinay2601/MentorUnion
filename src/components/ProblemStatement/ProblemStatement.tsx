@@ -17,9 +17,18 @@ export default function ProblemStatement() {
     const ctx = gsap.context(() => {
       if (!sectionRef.current) return;
 
-      // Split text into words
-      const splitBefore = new SplitText(textBeforeRef.current, { type: 'words' });
-      const splitAfter = new SplitText(textAfterRef.current, { type: 'words' });
+      // Split text into words and chars
+      const splitBefore = new SplitText(textBeforeRef.current, { 
+        type: 'words,chars',
+        wordsClass: 'word',
+        charsClass: 'char'
+      });
+      
+      const splitAfter = new SplitText(textAfterRef.current, { 
+        type: 'words,chars',
+        wordsClass: 'word',
+        charsClass: 'char'
+      });
 
       // SET INITIAL VISIBILITY FOR LEFT SVG
       gsap.set(`.${styles.topLeftVector}`, { opacity: 1 });
@@ -44,7 +53,6 @@ export default function ProblemStatement() {
           strokeDasharray: length,
           strokeDashoffset: length,
         });
-        
         tl.to(leftPath, {
           strokeDashoffset: 0,
           ease: 'none',
@@ -52,14 +60,21 @@ export default function ProblemStatement() {
         }, 0);
       }
 
-      // ANIMATE TEXT BEFORE
-      gsap.set(splitBefore.words, { opacity: 0, y: 30 });
-      tl.to(splitBefore.words, {
+      // ANIMATE TEXT BEFORE with 3D rotation effect
+      gsap.set(splitBefore.chars, { 
+        opacity: 0, 
+        y: 20,
+        rotationX: -90,
+        transformOrigin: '0% 50% -50'
+      });
+      
+      tl.to(splitBefore.chars, {
         opacity: 1,
         y: 0,
+        rotationX: 0,
         stagger: 0.02,
-        ease: 'power2.out',
-        duration: 0.4,
+        ease: 'back.out(1.7)',
+        duration: 0.8,
       }, 0);
 
       // Fade out left SVG
@@ -76,7 +91,6 @@ export default function ProblemStatement() {
           strokeDasharray: length,
           strokeDashoffset: length,
         });
-        
         tl.to(path, {
           strokeDashoffset: 0,
           ease: 'none',
@@ -90,7 +104,7 @@ export default function ProblemStatement() {
         ease: 'none',
         duration: 1.0,
       }, 2.8);
-
+      
       tl.to([textBeforeRef.current, textAfterRef.current], {
         color: '#ffffff',
         ease: 'none',
@@ -98,10 +112,11 @@ export default function ProblemStatement() {
       }, 2.8);
 
       // SMOOTH TRANSITION - scale and blur out first text
-      tl.to(splitBefore.words, {
+      tl.to(splitBefore.chars, {
         opacity: 0,
         scale: 0.8,
         filter: 'blur(10px)',
+        rotationX: 90,
         stagger: 0.015,
         ease: 'power2.inOut',
         duration: 0.4,
@@ -110,15 +125,23 @@ export default function ProblemStatement() {
       // Set text after container to visible
       tl.set(textAfterRef.current, { opacity: 1 }, 3.2);
 
-      // SMOOTH TRANSITION - scale and unblur second text
-      gsap.set(splitAfter.words, { opacity: 0, scale: 1.2, filter: 'blur(10px)' });
-      tl.to(splitAfter.words, {
+      // SMOOTH TRANSITION - scale and unblur second text with 3D rotation
+      gsap.set(splitAfter.chars, { 
+        opacity: 0, 
+        scale: 1.2, 
+        filter: 'blur(10px)',
+        rotationX: -90,
+        transformOrigin: '0% 50% -50'
+      });
+      
+      tl.to(splitAfter.chars, {
         opacity: 1,
         scale: 1,
         filter: 'blur(0px)',
+        rotationX: 0,
         stagger: 0.02,
-        ease: 'power2.out',
-        duration: 0.5,
+        ease: 'back.out(1.7)',
+        duration: 0.8,
       }, 3.4);
 
     }, sectionRef);

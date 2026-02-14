@@ -20,9 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin: 0 100px;
-
   height: 100%;
 }
 
@@ -72,22 +70,29 @@
   border: 1px solid white;
 }
 
-
-
 .button:hover {
   background: #f0f0f0;
   color: #000;
   transform: translateY(-1px);
 }
 
-.button:hover .arrowIcon{
-    filter: brightness(0) ;
+.button:hover .arrowIcon {
+  filter: brightness(0);
+}
+
+/* Hamburger - Hidden on Desktop */
+.hamburger {
+  display: none;
+}
+
+.mobileMenu {
+  display: none;
 }
 
 /* Mobile adjustments */
 @media (max-width: 1024px) {
   .container {
-    padding: 0 60px; /* reduce on smaller screens to avoid crowding */
+    margin: 0 60px;
   }
 }
 
@@ -97,23 +102,108 @@
   }
 
   .container {
-    padding: 0 24px; /* standard mobile padding */
+    margin: 0 20px;
   }
 
+  /* Hide desktop nav */
   .nav {
-    gap: 20px;
+    display: none;
   }
 
-  .navLink {
-    font-size: 13px;
-  }
-
-  .button {
-    padding: 8px 18px;
-  }
-
+  /* Logo on left */
   .logo {
-    width: 100px; /* scale down logo slightly on mobile */
+    width: 100px;
     height: 28px;
+    padding: 21px 0;
+  }
+
+  /* Show hamburger on right */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    z-index: 1001;
+  }
+
+  .hamburgerLine {
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .hamburgerLine:nth-child(1).hamburgerLineOpen {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburgerLine:nth-child(2).hamburgerLineOpen {
+    opacity: 0;
+  }
+
+  .hamburgerLine:nth-child(3).hamburgerLineOpen {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobile Menu Overlay */
+  .mobileMenu {
+    display: block;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  .mobileMenuOpen {
+    transform: translateX(0);
+  }
+
+  .mobileNav {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    gap: 32px;
+  }
+
+  .mobileNavLink {
+    color: #e0e0e0;
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  .mobileNavLink:hover {
+    color: #fff;
+  }
+
+  .mobileNavLinkButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    border: 1px solid white;
+    font-weight: 600;
+    width: fit-content;
+    margin-top: 8px;
+  }
+
+  .mobileNavLinkButton:hover {
+    background: #f0f0f0;
+    color: #000;
+  }
+
+  .mobileNavLinkButton:hover .arrowIcon {
+    filter: brightness(0);
   }
 }
