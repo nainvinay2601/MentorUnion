@@ -1,7 +1,99 @@
-.section {
+.container {
+  width: 100%;
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #000000 50%, #000000 100%);
+  padding: 120px 20px 180px;
   position: relative;
-  z-index: 1; /* Lower than slider */
-  margin-top: -250px; /* Negative margin pulls it up */
-  padding-top: 250px; /* Space so content isn't hidden */
-  background: #ffffff;
+  min-height: 100vh;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-primary);
+  font-size: 42px;
+  font-weight: 400;
+  color: #000000;
+  text-align: center;
+  margin: 0 0 60px 0;
+  letter-spacing: -0.02em;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.titleItalic {
+  font-family: var(--font-fraunces);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.laptopWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.laptopWrapper.fadeIn {
+  /* Remove initial animation since scroll handles it */
+}
+
+.laptopContainer {
+  position: relative;
+  width: 100%;
+  padding-bottom: 62.5%;
+}
+
+.video {
+  position: absolute;
+  top: 5.3%;
+  left: 12.8%;
+  width: 75.2%;
+  height: 86.2%;
+  object-fit: cover;
+  z-index: 10;
+  border-radius: 16px 16px 0px 0px;
+}
+
+.mockup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 80px 20px 120px;
+  }
+
+  .title {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .video {
+    border-radius: 12px 12px 0px 0px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 60px 16px 100px;
+  }
+
+  .title {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .video {
+    border-radius: 8px 8px 0px 0px;
+  }
 }

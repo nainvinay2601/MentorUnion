@@ -1,5 +1,5 @@
 // import styles from "./page.module.css";
-import { GoalsMentor } from "@/components/GoalsMentor/GoalsMentor";
+import  GoalsMentor  from "@/components/GoalsMentor/GoalsMentor";
 import Header from "@/components/Header/Header";
 import Hero from "@/components/Hero/Hero";
 import JourneySlider from "@/components/JourneySlider/JourneySlider";
@@ -16,7 +16,7 @@ export default function Home() {
 <MentorGrid/>
 <Stats/>
 <JourneySlider/>
-      <ProblemStatement />
+<GoalsMentor/>
 
 
     </div>
