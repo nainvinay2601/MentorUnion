@@ -1,9 +1,11 @@
 'use client';
-
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './FAQ.module.css';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface FAQItem {
   question: string;
@@ -118,6 +120,10 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number>(0);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
   const iconRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const containerRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const accordionsRef = useRef<HTMLDivElement>(null);
 
   const toggleAccordion = (index: number) => {
     const wasOpen = openIndex === index;
@@ -130,6 +136,7 @@ export default function FAQ() {
         duration: 0.4,
         ease: 'power2.inOut'
       });
+
       if (iconRefs.current[openIndex]) {
         gsap.to(iconRefs.current[openIndex], {
           rotation: 0,
@@ -153,6 +160,7 @@ export default function FAQ() {
           ease: 'power2.inOut'
         }
       );
+
       if (iconRefs.current[index]) {
         gsap.to(iconRefs.current[index], {
           rotation: 180,
@@ -184,10 +192,82 @@ export default function FAQ() {
     }
   }, [activeCategory]);
 
+  // Scroll-triggered animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Header animation
+      gsap.fromTo(
+        headerRef.current,
+        {
+          y: 60,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 80%',
+            end: 'top 50%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Sidebar tabs animation
+      gsap.fromTo(
+        `.${styles.tab}`,
+        {
+          x: -60,
+          opacity: 0
+        },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sidebarRef.current,
+            start: 'top 75%',
+            end: 'top 50%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Accordions animation
+      gsap.fromTo(
+        `.${styles.accordion}`,
+        {
+          y: 40,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: accordionsRef.current,
+            start: 'top 75%',
+            end: 'top 50%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }, [activeCategory]);
+
   const currentData = faqData[activeCategory];
 
   return (
-    <section className={styles.container}>
+    <section ref={containerRef} className={styles.container}>
       <div className={styles.meshBackground}>
         <Image
           src="/BG.png"
@@ -198,7 +278,7 @@ export default function FAQ() {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.header}>
+        <div ref={headerRef} className={styles.header}>
           <h2 className={styles.title}>
             Frequently Asked <br/><span className={styles.titleItalic}>Questions</span>
           </h2>
@@ -206,7 +286,7 @@ export default function FAQ() {
 
         <div className={styles.faqWrapper}>
           {/* Left Sidebar - Category Tabs */}
-          <div className={styles.sidebar}>
+          <div ref={sidebarRef} className={styles.sidebar}>
             <div
               className={`${styles.tab} ${activeCategory === 'bookings' ? styles.tabActive : ''}`}
               onClick={() => {
@@ -216,7 +296,6 @@ export default function FAQ() {
             >
               Bookings &<br />Rescheduling
             </div>
-
             <div
               className={`${styles.tab} ${activeCategory === 'techSupport' ? styles.tabActive : ''}`}
               onClick={() => {
@@ -226,7 +305,6 @@ export default function FAQ() {
             >
               Tech Support<br />& Navigation
             </div>
-
             <div
               className={`${styles.tab} ${activeCategory === 'mentorFeedback' ? styles.tabActive : ''}`}
               onClick={() => {
@@ -239,7 +317,7 @@ export default function FAQ() {
           </div>
 
           {/* Right Content - Accordions */}
-          <div className={styles.accordionsWrapper}>
+          <div ref={accordionsRef} className={styles.accordionsWrapper}>
             {currentData.faqs.map((faq, index) => (
               <div
                 key={index}
@@ -250,17 +328,17 @@ export default function FAQ() {
                   onClick={() => toggleAccordion(index)}
                 >
                   <span className={styles.accordionQuestion}>{faq.question}</span>
-            <span 
-  className={styles.accordionIcon}
-  ref={(el) => { iconRefs.current[index] = el; }}
->
-  <Image
-    src={openIndex === index ? '/svgs/close.svg' : '/svgs/open.svg'}
-    alt="Toggle"
-    width={42}
-    height={42}
-  />
-</span>
+                  <span 
+                    className={styles.accordionIcon}
+                    ref={(el) => { iconRefs.current[index] = el; }}
+                  >
+                    <Image
+                      src={openIndex === index ? '/svgs/close.svg' : '/svgs/open.svg'}
+                      alt="Toggle"
+                      width={42}
+                      height={42}
+                    />
+                  </span>
                 </button>
                 <div 
                   className={styles.accordionContent}

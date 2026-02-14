@@ -1,4 +1,4 @@
-/*  self-hosted fonts – absolute paths from /public */
+/* Self-hosted fonts – absolute paths from /public */
 @font-face {
   font-family: 'Galano Grotesque';
   src: url('/fonts/GalanoGrotesque-Light-webfont.woff2') format('woff2');
@@ -24,22 +24,27 @@
 }
 
 @font-face {
-  font-family: 'Fraunces 72pt';
-  src: url('/fonts/Fraunces_72pt_Soft-LightItalic-Regular.woff2') format('woff2');
-  font-weight: 300;
-  font-style: italic;
+  font-family: 'Fraunces';
+  src: url('/fonts/Fraunces_72ptRegular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/Fraunces_72ptBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --font-primary: 'Galano Grotesque', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-fraunces: 'Fraunces 72pt', serif;
+  --font-fraunces: 'Fraunces', serif;
 }
-
-
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -48,7 +53,7 @@
   }
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -61,10 +66,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  overflow-y: visible; /* Add this */
+  overflow-y: visible;
 }
 
-/* Add these new rules */
 main {
   overflow: visible;
   position: relative;

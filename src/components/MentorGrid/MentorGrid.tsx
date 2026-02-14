@@ -1,12 +1,8 @@
 'use client';
-
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styles from './MentorGrid.module.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function MentorGrid() {
   const sectionRef = useRef(null);
@@ -48,7 +44,6 @@ export default function MentorGrid() {
     [allLogos[3], allLogos[9], allLogos[15], allLogos[21]],
     [allLogos[4], allLogos[10], allLogos[16], allLogos[22]],
     [allLogos[5], allLogos[11], allLogos[17], allLogos[23]],
-
     // ROW 2
     [allLogos[6], allLogos[12], allLogos[18], allLogos[0]],
     [allLogos[7], allLogos[13], allLogos[19], allLogos[1]],
@@ -56,7 +51,6 @@ export default function MentorGrid() {
     [allLogos[9], allLogos[15], allLogos[21], allLogos[3]],
     [allLogos[10], allLogos[16], allLogos[22], allLogos[4]],
     [allLogos[11], allLogos[17], allLogos[23], allLogos[5]],
-
     // ROW 3
     [allLogos[12], allLogos[18], allLogos[0], allLogos[6]],
     [allLogos[13], allLogos[19], allLogos[1], allLogos[7]],
@@ -64,7 +58,6 @@ export default function MentorGrid() {
     [allLogos[15], allLogos[21], allLogos[3], allLogos[9]],
     [allLogos[16], allLogos[22], allLogos[4], allLogos[10]],
     [allLogos[17], allLogos[23], allLogos[5], allLogos[11]],
-
     // ROW 4
     [allLogos[18], allLogos[0], allLogos[6], allLogos[12]],
     [allLogos[19], allLogos[1], allLogos[7], allLogos[13]],
@@ -77,24 +70,24 @@ export default function MentorGrid() {
   useEffect(() => {
     const cubeElements = document.querySelectorAll(`.${styles.cubeInner}`);
 
-    const scrollTrigger = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top',
-      end: '+=400%',
-      pin: true,
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const rotation = progress * 360;
-
-        cubeElements.forEach((cube) => {
-          cube.style.transform = `rotateY(${rotation}deg)`;
+    // Rotate all cubes automatically every 1 second (90 degrees each time)
+    const interval = setInterval(() => {
+      cubeElements.forEach((cube) => {
+        const currentRotation = parseInt(cube.dataset.rotation || '0');
+        const newRotation = currentRotation + 90;
+        
+        gsap.to(cube, {
+          rotateY: newRotation,
+          duration: 0.6,
+          // ease: 'power2.inOut',
         });
-      },
-    });
+        
+        cube.dataset.rotation = newRotation.toString();
+      });
+    }, 2000);
 
     return () => {
-      scrollTrigger.kill();
+      clearInterval(interval);
     };
   }, []);
 
@@ -116,7 +109,7 @@ export default function MentorGrid() {
               className={`${styles.cell} ${(index + 1) % 6 === 0 ? styles.lastInRow : ''}`}
             >
               <div className={styles.cubeWrapper}>
-                <div className={styles.cubeInner}>
+                <div className={styles.cubeInner} data-rotation="0">
                   <div className={`${styles.cubeFace} ${styles.front}`}>
                     <Image 
                       src={logos[0]} 

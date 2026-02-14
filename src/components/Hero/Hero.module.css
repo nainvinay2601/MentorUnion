@@ -286,19 +286,144 @@
 
 /* Mobile */
 @media (max-width: 768px) {
+  .hero {
+    height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .bgWrapper::after {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(9, 9, 9, 0.7) 50%, #090909 100%);
+  }
+
+  .bgImage {
+    object-position: center top;
+  }
+
   .orbitContainer {
-    display: none;
+    bottom: -33%;
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200vw;
+    height: 200vw;
+    max-width: none;
+    max-height: none;
+  }
+
+  .ring1 {
+    width: 75%;
+    height: 75%;
+    margin-left: -37.5%;
+    margin-top: -37.5%;
+  }
+
+  .ring2 {
+    width: 95%;
+    height: 95%;
+    margin-left: -47.5%;
+    margin-top: -47.5%;
+  }
+
+  .avatarHolder {
+    width: 70px;
+    height: 70px;
+  }
+
+  .avatarBg,
+  .avatarImg {
+    width: 70px;
+    height: 70px;
+  }
+
+  .ring1 .avatar1 {
+    top: calc(50% - 50% - 35px);
+    left: calc(50% - 35px);
+  }
+
+  .ring1 .avatar2 {
+    top: calc(50% - 50% * 0.5 - 35px);
+    left: calc(50% + 50% * 0.866 - 35px);
+  }
+
+  .ring1 .avatar3 {
+    top: calc(50% + 50% * 0.5 - 35px);
+    left: calc(50% + 50% * 0.866 - 35px);
+  }
+
+  .ring1 .avatar4 {
+    top: calc(50% + 50% - 35px);
+    left: calc(50% - 35px);
+  }
+
+  .ring1 .avatar5 {
+    top: calc(50% + 50% * 0.5 - 35px);
+    left: calc(50% - 50% * 0.866 - 35px);
+  }
+
+  .ring1 .avatar6 {
+    top: calc(50% - 50% * 0.5 - 35px);
+    left: calc(50% - 50% * 0.866 - 35px);
+  }
+
+  .ring2 .avatar7 {
+    top: calc(50% - 50% * 0.866 - 35px);
+    left: calc(50% + 50% * 0.5 - 35px);
+  }
+
+  .ring2 .avatar8 {
+    top: calc(50% - 35px);
+    left: calc(50% + 50% - 35px);
+  }
+
+  .ring2 .avatar9 {
+    top: calc(50% + 50% * 0.866 - 35px);
+    left: calc(50% + 50% * 0.5 - 35px);
+  }
+
+  .ring2 .avatar10 {
+    top: calc(50% + 50% * 0.866 - 35px);
+    left: calc(50% - 50% * 0.5 - 35px);
+  }
+
+  .ring2 .avatar11 {
+    top: calc(50% - 35px);
+    left: calc(50% - 50% - 35px);
+  }
+
+  .ring2 .avatar12 {
+    top: calc(50% - 50% * 0.866 - 35px);
+    left: calc(50% - 50% * 0.5 - 35px);
   }
 
   .content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     padding: 0 24px 60px 24px;
+    text-align: center;
   }
 
   .headline {
-    font-size: 2.8rem;
+    font-size: 2rem;
+    line-height: 110%;
+    font-weight: 400;
+  }
+
+  .accent {
+    font-size: 2.2rem;
   }
 
   .subtext {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    max-width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .cta {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 24px;
+    font-size: 1rem;
   }
 }
