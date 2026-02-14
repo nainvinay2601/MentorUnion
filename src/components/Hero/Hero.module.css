@@ -300,7 +300,7 @@
   }
 
   .orbitContainer {
-    bottom: -33%;
+    bottom: -52%;
     top: auto;
     left: 50%;
     transform: translateX(-50%);
@@ -415,7 +415,7 @@
   }
 
   .subtext {
-    font-size: 1rem;
+    font-size: 0.8rem;
     max-width: 100%;
     margin-bottom: 24px;
   }
