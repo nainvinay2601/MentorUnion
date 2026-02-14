@@ -77,6 +77,21 @@
 }
 
 @media (max-width: 768px) {
-  .topLeftVector { top: -60vh; left: -35%; width: 140%; }
-  .topRightVector { top: -65vh; right: -70%; width: 220%; }
+  .textBefore,
+  .textAfter {
+    font-size: 2rem;
+    padding: 0 20px;
+  }
+
+  .topLeftVector {
+    top: 10%;
+    left: -40%;
+    width: 150%;
+  }
+
+  .topRightVector {
+    top: 5%;
+    right: -60%;
+    width: 200%;
+  }
 }
