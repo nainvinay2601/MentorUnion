@@ -74,7 +74,7 @@ export default function Hero() {
     <section ref={heroRef} className={styles.hero}>
       <div className={styles.bgWrapper}>
         <Image
-          src="/heroSectionAssets/kunalHero.webp"
+          src="/heroSectionAssets/kunal.png"
           alt="Mentor background"
           fill
           priority

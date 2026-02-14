@@ -17,8 +17,15 @@
 
 .bgImage {
   object-fit: cover;
-  object-position: center center;
-  opacity: 0.65;
+  object-position: right 50%;
+  opacity: 0.75;
+}
+.bgWrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(270.98deg, rgba(0, 0, 0, 0) 32.76%, #090909 61.3%);
+  z-index: 1;
 }
 
 /* Orbit container - CENTER RIGHT, around mentor's head */
@@ -104,8 +111,8 @@
 }
 
 .avatarImg {
-  width: 56px;
-  height: 56px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
 }
