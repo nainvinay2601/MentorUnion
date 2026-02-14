@@ -72,7 +72,6 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} className={styles.hero}>
-      {/* Background mentor image */}
       <div className={styles.bgWrapper}>
         <Image
           src="/heroSectionAssets/kunalHero.webp"
@@ -84,16 +83,15 @@ export default function Hero() {
         />
       </div>
 
-      {/* Orbit system - top left */}
       <div className={styles.orbitContainer}>
-        {/* Inner orbit ring */}
+        {/* Inner ring - 6 avatars at 0°, 60°, 120°, 180°, 240°, 300° */}
         <div className={`${styles.orbitRing} ${styles.ring1}`}>
           <div className={styles.orbitPath}></div>
           
           <div className={`${styles.avatarHolder} ${styles.avatar1}`}>
             <div className={styles.avatarWrapper}>
               <div className={styles.avatarBg}>
-                <Image src="/avatars/person1.jpg" width={70} height={70} alt="" className={styles.avatarImg} />
+                <Image src="/avatars/avatar.webp" width={70} height={70} alt="" className={styles.avatarImg} />
               </div>
             </div>
           </div>
@@ -101,35 +99,98 @@ export default function Hero() {
           <div className={`${styles.avatarHolder} ${styles.avatar2}`}>
             <div className={styles.avatarWrapper}>
               <div className={styles.avatarBg}>
-                <Image src="/avatars/person2.jpg" width={70} height={70} alt="" className={styles.avatarImg} />
+                <Image src="/avatars/avatar2.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar3}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar3.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar4}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar4.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar5}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar5.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar6}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar6.webp" width={70} height={70} alt="" className={styles.avatarImg} />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Outer orbit ring */}
+        {/* Outer ring - 6 avatars at 30°, 90°, 150°, 210°, 270°, 330° */}
         <div className={`${styles.orbitRing} ${styles.ring2}`}>
           <div className={styles.orbitPath}></div>
           
-          <div className={`${styles.avatarHolder} ${styles.avatar3}`}>
+          <div className={`${styles.avatarHolder} ${styles.avatar7}`}>
             <div className={styles.avatarWrapper}>
               <div className={styles.avatarBg}>
-                <Image src="/avatars/person3.jpg" width={70} height={70} alt="" className={styles.avatarImg} />
+                <Image src="/avatars/avatar7.webp" width={70} height={70} alt="" className={styles.avatarImg} />
               </div>
             </div>
           </div>
           
-          <div className={`${styles.avatarHolder} ${styles.avatar4}`}>
+          <div className={`${styles.avatarHolder} ${styles.avatar8}`}>
             <div className={styles.avatarWrapper}>
               <div className={styles.avatarBg}>
-                <Image src="/avatars/person4.jpg" width={70} height={70} alt="" className={styles.avatarImg} />
+                <Image src="/avatars/avatar8.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar9}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar9.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar10}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar10.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar11}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar11.webp" width={70} height={70} alt="" className={styles.avatarImg} />
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.avatarHolder} ${styles.avatar12}`}>
+            <div className={styles.avatarWrapper}>
+              <div className={styles.avatarBg}>
+                <Image src="/avatars/avatar12.webp" width={70} height={70} alt="" className={styles.avatarImg} />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Text content - middle left */}
       <div className={styles.content}>
         <h1 className={styles.headline}>
           Unlock Your Potential
@@ -143,7 +204,7 @@ export default function Hero() {
 
         <button className={styles.cta}>
           Browse Mentors
-            <Image src="/svgs/MU-Arrow-Main.svg" alt="Arrow right" width={16} height={16} className={styles.ctaIcon} />
+          <Image src="/svgs/MU-Arrow-Main.svg" alt="Arrow right" width={16} height={16} className={styles.ctaIcon} />
         </button>
       </div>
     </section>

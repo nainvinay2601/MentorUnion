@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-height: 100vh ;
+  height: 100vh;
   display: flex;
   align-items: center;
   background: #0a0a0a;
@@ -26,11 +26,8 @@ height: 100vh ;
   position: absolute;
   bottom: -117%;
   left: -20%;
-  /* transform: translate(0, -50%); */
   width: 100vw;
   height: 100vw;
-  /* max-width: 700px; */
-  /* max-height: 700px; */
   z-index: 2;
   pointer-events: none;
 }
@@ -43,22 +40,22 @@ height: 100vh ;
   border-radius: 50%;
 }
 
-/* Inner ring - counter-clockwise, 77% size */
+/* Inner ring - clockwise, 77% size */
 .ring1 {
   width: 77%;
   height: 77%;
   margin-left: -38.5%;
   margin-top: -38.5%;
-  animation: rotateCounterClockwise 50s linear infinite;
+  animation: rotateClockwise 50s linear infinite;
 }
 
-/* Outer ring - clockwise, 100% size */
+/* Outer ring - counter-clockwise, 100% size */
 .ring2 {
   width: 100%;
   height: 100%;
   margin-left: -50%;
   margin-top: -50%;
-  animation: rotateClockwise 60s linear infinite;
+  animation: rotateCounterClockwise 60s linear infinite;
 }
 
 /* Orbital path line */
@@ -80,6 +77,9 @@ height: 100vh ;
 .avatarWrapper {
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ring1 .avatarWrapper {
@@ -95,10 +95,9 @@ height: 100vh ;
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffd95a 0%, #ffeb99 100%);
-  padding: 12px;
-  box-shadow: 0 8px 30px rgba(255, 217, 90, 0.5),
-              0 0 40px rgba(255, 217, 90, 0.3);
+
+
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,31 +110,66 @@ height: 100vh ;
   object-fit: cover;
 }
 
-/* Position avatars ON the orbital path using absolute positioning */
-/* Ring1 radius = 50% of ring1's size */
-
-/* Avatar 1 - top right (30deg on inner ring) */
+/* INNER RING - 6 avatars at 60° intervals (0°, 60°, 120°, 180°, 240°, 300°) */
 .ring1 .avatar1 {
-  top: calc(50% - 50% * 0.866 - 40px);  /* 50% * sin(30deg) */
-  left: calc(50% + 50% * 0.5 - 40px);    /* 50% * cos(30deg) */
+  top: calc(50% - 50% - 40px);
+  left: calc(50% - 40px);
 }
 
-/* Avatar 2 - bottom left (210deg on inner ring) */
 .ring1 .avatar2 {
-  top: calc(50% + 50% * 0.5 - 40px);     /* 50% * sin(210deg) */
-  left: calc(50% - 50% * 0.866 - 40px);  /* 50% * cos(210deg) */
+  top: calc(50% - 50% * 0.5 - 40px);
+  left: calc(50% + 50% * 0.866 - 40px);
 }
 
-/* Avatar 3 - top (80deg on outer ring) */
-.ring2 .avatar3 {
-  top: calc(50% - 50% * 0.985 - 40px);   /* 50% * sin(80deg) */
-  left: calc(50% + 50% * 0.174 - 40px);  /* 50% * cos(80deg) */
+.ring1 .avatar3 {
+  top: calc(50% + 50% * 0.5 - 40px);
+  left: calc(50% + 50% * 0.866 - 40px);
 }
 
-/* Avatar 4 - bottom left (260deg on outer ring) */
-.ring2 .avatar4 {
-  top: calc(50% + 50% * 0.342 - 40px);   /* 50% * sin(260deg) */
-  left: calc(50% - 50% * 0.940 - 40px);  /* 50% * cos(260deg) */
+.ring1 .avatar4 {
+  top: calc(50% + 50% - 40px);
+  left: calc(50% - 40px);
+}
+
+.ring1 .avatar5 {
+  top: calc(50% + 50% * 0.5 - 40px);
+  left: calc(50% - 50% * 0.866 - 40px);
+}
+
+.ring1 .avatar6 {
+  top: calc(50% - 50% * 0.5 - 40px);
+  left: calc(50% - 50% * 0.866 - 40px);
+}
+
+/* OUTER RING - 6 avatars at 30° offset (30°, 90°, 150°, 210°, 270°, 330°) */
+.ring2 .avatar7 {
+  top: calc(50% - 50% * 0.866 - 40px);
+  left: calc(50% + 50% * 0.5 - 40px);
+}
+
+.ring2 .avatar8 {
+  top: calc(50% - 40px);
+  left: calc(50% + 50% - 40px);
+}
+
+.ring2 .avatar9 {
+  top: calc(50% + 50% * 0.866 - 40px);
+  left: calc(50% + 50% * 0.5 - 40px);
+}
+
+.ring2 .avatar10 {
+  top: calc(50% + 50% * 0.866 - 40px);
+  left: calc(50% - 50% * 0.5 - 40px);
+}
+
+.ring2 .avatar11 {
+  top: calc(50% - 40px);
+  left: calc(50% - 50% - 40px);
+}
+
+.ring2 .avatar12 {
+  top: calc(50% - 50% * 0.866 - 40px);
+  left: calc(50% - 50% * 0.5 - 40px);
 }
 
 /* Content - bottom left */
@@ -143,40 +177,32 @@ height: 100vh ;
   position: absolute;
   bottom: 0;
   left: 0;
-
   z-index: 4;
-  /* max-width: 700px; */
-padding: 0px 0px 80px 100px;
+  padding: 0px 0px 80px 100px;
   align-self: flex-end;
 }
 
 .headline {
-  /* font-size: clamp(3.5rem, 5.5vw, 6rem);
-   */
-   font-size: 52px;
+  font-size: 52px;
   font-weight: 300;
   line-height: 120%;
   margin-bottom: 16px;
-  /* letter-spacing: -0.02em; */
 }
 
 .accent {
-background: linear-gradient(91.07deg, #39B5D7 19.66%, #F7D544 59.9%, #E38330 99.78%);
-
-
+  background: linear-gradient(91.07deg, #39B5D7 19.66%, #F7D544 59.9%, #E38330 99.78%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-style: italic;
-  font-size:60px;
+  font-size: 60px;
   font-family: var(--font-fraunces);
   font-weight: 500;
 }
 
 .subtext {
-  /* font-size: clamp(1.05rem, 1.25vw, 1.2rem); */
   font-size: 16px;
-  color:#E5E5E5;
+  color: #E5E5E5;
   max-width: 540px;
   margin-bottom: 16px;
   opacity: 0.85;
@@ -211,16 +237,12 @@ background: linear-gradient(91.07deg, #39B5D7 19.66%, #F7D544 59.9%, #E38330 99.
   background: #f5f5f5;
 }
 
-
-
-
-.ctaIcon{
+.ctaIcon {
   width: auto;
   height: auto;
-
   filter: brightness(0);
-
 }
+
 /* Animations */
 @keyframes rotateCounterClockwise {
   from { transform: rotate(0deg); }
@@ -234,12 +256,12 @@ background: linear-gradient(91.07deg, #39B5D7 19.66%, #F7D544 59.9%, #E38330 99.
 
 @keyframes keepUpright1 {
   from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  to { transform: rotate(-360deg); }
 }
 
 @keyframes keepUpright2 {
   from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Tablet */
