@@ -30,7 +30,7 @@ export default function Header() {
         <div className={styles.container}>
           {/* Logo */}
           <Link href="/" className={styles.logo}>
-            <Image src="/logo.svg" alt="Mentor Union Logo" width={120} height={33} />
+            <Image src="/Logo.svg" alt="Mentor Union Logo" width={120} height={33} />
           </Link>
 
           {/* Desktop Nav */}
