@@ -16,7 +16,7 @@ export default function Home() {
 <MentorGrid/>
 <Stats/>
 <JourneySlider/>
-<GoalsMentor/>
+
 
     </div>
   );

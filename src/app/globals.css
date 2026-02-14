@@ -61,4 +61,15 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  overflow-y: visible; /* Add this */
+}
+
+/* Add these new rules */
+main {
+  overflow: visible;
+  position: relative;
+}
+
+section {
+  overflow: visible;
 }
