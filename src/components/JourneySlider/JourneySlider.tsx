@@ -24,71 +24,106 @@ const cards: Card[] = [
 
 export default function JourneySlider() {
   const [activeIndex, setActiveIndex] = useState(2);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(5);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const calculateVisibleCards = () => {
+      if (typeof window === 'undefined') return;
+      
+      const width = window.innerWidth;
+      
+      if (width >= 1600) {
+        setVisibleCount(7);
+      } else if (width >= 1200) {
+        setVisibleCount(5);
+      } else if (width >= 768) {
+        setVisibleCount(5);
+      } else if (width >= 480) {
+        setVisibleCount(3);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+
+    calculateVisibleCards();
+    window.addEventListener('resize', calculateVisibleCards);
+    return () => window.removeEventListener('resize', calculateVisibleCards);
+  }, []);
 
   const getVisibleCards = () => {
     const visible = [];
-    for (let i = -2; i <= 2; i++) {
+    const halfVisible = Math.floor(visibleCount / 2);
+    
+    for (let i = -halfVisible; i <= halfVisible; i++) {
       const index = (activeIndex + i + cards.length) % cards.length;
       visible.push({ card: cards[index], position: i });
     }
     return visible;
   };
 
-  useEffect(() => {
-    // Auto-advance every 3 seconds
-    intervalRef.current = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % cards.length);
-    }, 3000);
+  const handleDragStart = (clientX: number) => {
+    setIsDragging(true);
+    setStartX(clientX);
+    setCurrentX(clientX);
+    setDragOffset(0);
+  };
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, []);
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging) return;
+    setCurrentX(clientX);
+    const diff = clientX - startX;
+    setDragOffset(diff);
+  };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Clear auto-advance on manual interaction
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
 
-      if (e.key === 'ArrowLeft') {
-        setActiveIndex((prev) => (prev - 1 + cards.length) % cards.length);
-      } else if (e.key === 'ArrowRight') {
+    const threshold = 80;
+    const velocity = currentX - startX;
+
+    if (Math.abs(velocity) > threshold) {
+      if (velocity < 0) {
+        // Swiped left - go to next card
         setActiveIndex((prev) => (prev + 1) % cards.length);
+      } else {
+        // Swiped right - go to previous card
+        setActiveIndex((prev) => (prev - 1 + cards.length) % cards.length);
       }
-
-      // Restart auto-advance after 5 seconds of inactivity
-      setTimeout(() => {
-        intervalRef.current = setInterval(() => {
-          setActiveIndex((prev) => (prev + 1) % cards.length);
-        }, 3000);
-      }, 5000);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  const handleCardClick = (position: number) => {
-    if (position !== 0) {
-      // Clear auto-advance on manual interaction
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-
-      setActiveIndex((activeIndex + position + cards.length) % cards.length);
-
-      // Restart auto-advance after 5 seconds
-      setTimeout(() => {
-        intervalRef.current = setInterval(() => {
-          setActiveIndex((prev) => (prev + 1) % cards.length);
-        }, 3000);
-      }, 5000);
     }
+
+    setDragOffset(0);
+  };
+
+  const getCardTransform = (position: number) => {
+    if (!isDragging) return 0;
+    
+    // Smooth drag factor - less movement for cards further from center
+    const dragFactor = 1 - Math.abs(position) * 0.15;
+    return dragOffset * dragFactor;
+  };
+
+  const getCardScale = (position: number) => {
+    if (!isDragging) return 1;
+    
+    const absPosition = Math.abs(position);
+    const dragProgress = Math.abs(dragOffset) / 200; // Normalize drag distance
+    
+    // Scale up adjacent cards as we drag towards them
+    if (dragOffset < 0 && position === 1) {
+      return 1 + dragProgress * 0.1;
+    } else if (dragOffset > 0 && position === -1) {
+      return 1 + dragProgress * 0.1;
+    } else if (position === 0) {
+      return 1 - dragProgress * 0.05;
+    }
+    
+    return 1;
   };
 
   return (
@@ -99,30 +134,53 @@ export default function JourneySlider() {
           <p className={styles.subtitle}>Lets Make it Happen</p>
         </div>
 
-        <div className={styles.cardsWrapper}>
-          {getVisibleCards().map(({ card, position }) => (
-            <div
-              key={`${card.id}-${position}`}
-              className={`${styles.card} ${
-                position === 0 ? styles.cardActive :
-                position === -1 || position === 1 ? styles.cardAdjacent :
-                styles.cardFar
-              }`}
-              onClick={() => handleCardClick(position)}
-            >
-              <div className={styles.cardImageWrapper}>
-                <Image 
-                  src={card.image} 
-                  alt={`Slide ${card.id}`}
-                  fill
-                  className={styles.cardImage}
-                  draggable={false}
-                />
-                {position !== 0 && <div className={styles.cardOverlay} />}
+        <div
+          className={styles.cardsWrapper}
+          ref={wrapperRef}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            handleDragStart(e.clientX);
+          }}
+          onMouseMove={(e) => handleDragMove(e.clientX)}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={handleDragEnd}
+          onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+          onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+          onTouchEnd={handleDragEnd}
+        >
+          {getVisibleCards().map(({ card, position }) => {
+            const absPosition = Math.abs(position);
+            const cardTransform = getCardTransform(position);
+            const cardScale = getCardScale(position);
+            
+            return (
+              <div
+                key={`${card.id}-${position}`}
+                className={`${styles.card} ${
+                  position === 0 ? styles.cardActive :
+                  absPosition === 1 ? styles.cardAdjacent :
+                  absPosition === 2 ? styles.cardFar :
+                  styles.cardFarther
+                }`}
+                style={{
+                  transform: `translateX(${cardTransform}px) scale(${cardScale})`,
+                  transition: isDragging ? 'none' : 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+              >
+                <div className={styles.cardImageWrapper}>
+                  <Image 
+                    src={card.image} 
+                    alt={`Slide ${card.id}`}
+                    fill
+                    className={styles.cardImage}
+                    draggable={false}
+                  />
+                  {position !== 0 && <div className={styles.cardOverlay} />}
+                </div>
+                {position === 0 && <div className={styles.activeHighlight} />}
               </div>
-              {position === 0 && <div className={styles.activeHighlight} />}
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
       
