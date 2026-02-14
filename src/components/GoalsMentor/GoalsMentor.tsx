@@ -1,14 +1,20 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 import styles from './GoalsMentor.module.css';
 import Image from 'next/image';
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 export default function GoalsMentor() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const laptopRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,47 +42,62 @@ export default function GoalsMentor() {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      
-      const rect = sectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      // Calculate progress from when section enters until it leaves viewport
-      const start = windowHeight;
-      const end = -rect.height;
-      const progress = Math.min(Math.max((start - rect.top) / (start - end), 0), 1);
-      
-      setScrollProgress(progress);
-    };
+    if (!titleRef.current || !laptopRef.current) return;
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial call
-    
-    return () => window.removeEventListener('scroll', handleScroll);
+    const ctx = gsap.context(() => {
+      // Split text animation
+      const split = new SplitText(titleRef.current, { 
+        type: 'words,chars',
+        wordsClass: 'word',
+        charsClass: 'char'
+      });
+
+      // Title animation - stagger chars
+      gsap.from(split.chars, {
+        opacity: 0,
+        y: 20,
+        rotationX: -90,
+        transformOrigin: '0% 50% -50',
+        stagger: 0.02,
+        duration: 0.8,
+        ease: 'back.out(1.7)',
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: 'top 80%',
+          end: 'top 50%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+      // Laptop + Video animation together (no separate video animation)
+      gsap.from(laptopRef.current, {
+        y: 100,
+        opacity: 0,
+        scale: 0.95,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: laptopRef.current,
+          start: 'top 85%',
+          end: 'top 40%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+    });
+
+    return () => ctx.revert();
   }, []);
 
   return (
     <section className={styles.container} ref={sectionRef}>
       <div className={styles.content}>
-        <h2 
-          className={styles.title}
-          style={{
-            opacity: Math.min(scrollProgress * 2, 1),
-            transform: `translateY(${Math.max(30 - scrollProgress * 30, 0)}px)`
-          }}
-        >
-          Begin your Mentorship Journey in{' '}
+        <h2 ref={titleRef} className={styles.title}>
+          Begin your Mentorship <br/> Journey in{' '}
           <span className={styles.titleItalic}>5 steps</span>
         </h2>
 
-        <div 
-          className={`${styles.laptopWrapper} ${isInView ? styles.fadeIn : ''}`}
-          style={{
-            transform: `scale(${0.85 + scrollProgress * 0.15}) translateY(${Math.max(50 - scrollProgress * 50, 0)}px)`,
-            opacity: Math.min(scrollProgress * 1.5, 1)
-          }}
-        >
+        <div className={styles.laptopWrapper} ref={laptopRef}>
           <div className={styles.laptopContainer}>
             {/* Video */}
             <video

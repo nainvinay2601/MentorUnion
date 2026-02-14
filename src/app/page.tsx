@@ -17,6 +17,8 @@ export default function Home() {
 <Stats/>
 <JourneySlider/>
 <GoalsMentor/>
+      <ProblemStatement />
+
 
 
     </div>
