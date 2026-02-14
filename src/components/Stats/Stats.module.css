@@ -98,7 +98,7 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 60px 24px;
+    padding: 20px 24px;
   }
 
   .section::before {
@@ -107,12 +107,12 @@
 
   .container {
     grid-template-columns: repeat(6, 1fr);
-    gap: 60px 24px;
+    gap: 60px 0;
     margin: 60px auto 40px;
   }
 
   .statItem {
-    padding: 0 5px;
+    padding: 0 16px;
   }
 
   .statItem:nth-child(1),
@@ -130,23 +130,24 @@
   }
 
   .statItem:nth-child(1) .divider,
-  .statItem:nth-child(2) .divider {
+  .statItem:nth-child(2) .divider,
+  .statItem:nth-child(4) .divider {
     display: block;
     height: 60px;
   }
 
   .statItem:nth-child(3) .divider,
-  .statItem:nth-child(4) .divider,
   .statItem:nth-child(5) .divider {
     display: none;
   }
 
   .statValue {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .statLabel {
     font-size: 12px;
-    padding: 0 4px;
+    padding: 0;
+
   }
 }
