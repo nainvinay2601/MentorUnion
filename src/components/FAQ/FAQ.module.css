@@ -24,10 +24,9 @@
 
 .content {
   position: relative;
-width: 100%;
+  width: 100%;
   margin: 0 auto;
   z-index: 1;
-
   padding: 0px 100px;
 }
 
@@ -41,7 +40,6 @@ width: 100%;
   font-weight: 300;
   color: #000000;
   margin: 0;
-  /* letter-spacing: -0.02em; */
   line-height: 120%;
 }
 
@@ -60,7 +58,6 @@ width: 100%;
 
 .sidebar {
   flex-shrink: 0;
-  /* width: 240px; */
   background: #171717;
   border-radius: 16px;
   padding: 40px 38px;
@@ -73,10 +70,7 @@ width: 100%;
   display: flex;
   align-items: center;
   justify-content: start;
-  /* padding: 20px 16px; */
   background: transparent;
-  /* border: 1px solid #4A4A4A; */
-  /* border-radius: 12px; */
   color: #9CA3AF;
   font-family: var(--font-primary);
   font-size: 14px;
@@ -86,7 +80,6 @@ width: 100%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   line-height: 120%;
   position: relative;
-
 }
 
 .tab:hover {
@@ -108,7 +101,6 @@ width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* max-width: 900px; */
 }
 
 .accordion {
@@ -149,21 +141,10 @@ width: 100%;
   width: 42px;
   height: 42px;
   color: #000000;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordionOpen .accordionIcon {
-  transform: rotate(180deg);
 }
 
 .accordionContent {
-  max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.accordionOpen .accordionContent {
-  max-height: 500px;
 }
 
 .accordionAnswer {

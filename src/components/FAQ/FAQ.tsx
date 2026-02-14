@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './FAQ.module.css';
+import { gsap } from 'gsap';
 
 interface FAQItem {
   question: string;
@@ -115,10 +116,73 @@ const faqData: Record<string, CategoryData> = {
 export default function FAQ() {
   const [activeCategory, setActiveCategory] = useState<string>('bookings');
   const [openIndex, setOpenIndex] = useState<number>(0);
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const iconRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   const toggleAccordion = (index: number) => {
-    setOpenIndex(openIndex === index ? -1 : index);
+    const wasOpen = openIndex === index;
+    const targetIndex = wasOpen ? -1 : index;
+
+    // Close current
+    if (openIndex !== -1 && contentRefs.current[openIndex]) {
+      gsap.to(contentRefs.current[openIndex], {
+        height: 0,
+        duration: 0.4,
+        ease: 'power2.inOut'
+      });
+      if (iconRefs.current[openIndex]) {
+        gsap.to(iconRefs.current[openIndex], {
+          rotation: 0,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      }
+    }
+
+    // Open new
+    if (!wasOpen && contentRefs.current[index]) {
+      const content = contentRefs.current[index];
+      gsap.set(content, { height: 'auto' });
+      const height = content.offsetHeight;
+      gsap.fromTo(
+        content,
+        { height: 0 },
+        {
+          height: height,
+          duration: 0.4,
+          ease: 'power2.inOut'
+        }
+      );
+      if (iconRefs.current[index]) {
+        gsap.to(iconRefs.current[index], {
+          rotation: 180,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      }
+    }
+
+    setOpenIndex(targetIndex);
   };
+
+  useEffect(() => {
+    // Animate first accordion on mount
+    if (contentRefs.current[0]) {
+      const content = contentRefs.current[0];
+      gsap.set(content, { height: 'auto' });
+      const height = content.offsetHeight;
+      gsap.fromTo(
+        content,
+        { height: 0 },
+        {
+          height: height,
+          duration: 0.5,
+          ease: 'power2.out',
+          delay: 0.2
+        }
+      );
+    }
+  }, [activeCategory]);
 
   const currentData = faqData[activeCategory];
 
@@ -186,16 +250,23 @@ export default function FAQ() {
                   onClick={() => toggleAccordion(index)}
                 >
                   <span className={styles.accordionQuestion}>{faq.question}</span>
-                  <span className={styles.accordionIcon}>
-                    <Image
-                      src={openIndex === index ? '/svgs/close.svg' : '/svgs/open.svg'}
-                      alt={openIndex === index ? 'Close' : 'Open'}
-                      width={42}
-                      height={42}
-                    />
-                  </span>
+            <span 
+  className={styles.accordionIcon}
+  ref={(el) => { iconRefs.current[index] = el; }}
+>
+  <Image
+    src={openIndex === index ? '/svgs/close.svg' : '/svgs/open.svg'}
+    alt="Toggle"
+    width={42}
+    height={42}
+  />
+</span>
                 </button>
-                <div className={styles.accordionContent}>
+                <div 
+                  className={styles.accordionContent}
+                  ref={(el) => { contentRefs.current[index] = el; }}
+                  style={{ height: 0, overflow: 'hidden' }}
+                >
                   <div className={styles.accordionAnswer}>
                     {faq.answer}
                   </div>
